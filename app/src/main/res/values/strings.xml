@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Adapter</string>
+    <string name="lesve">Please</string>
+    <string name="lesve1">PleasPe</string>
+    <string name="lesve2">PleaseJ</string>
+    <string name="lesve3">PleasGe</string>
+    <string name="lesve4">PleaGse</string>
+    <string name="lesve5">PleasDDe</string>
+</resources>
