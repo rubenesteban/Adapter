@@ -49,9 +49,7 @@ fun GameScreen(
             LazyGridList(
                 options = gameUiState.currendCards
             )
-            LazyGridList(
-                options = gameUiState.currendCards
-            )
+
         }
     }
 }
