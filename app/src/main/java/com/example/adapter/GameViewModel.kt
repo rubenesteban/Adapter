@@ -27,11 +27,9 @@ class GameViewModel : ViewModel() {
 
 
     init {
-        //updaState ()
+       
         resetGame()
-        //updaState ()
-     // updateState (userCards)
-      //  resetGame()
+  
     }
 
     private fun pickRandomWordAndShuffle(): String {
