@@ -1,15 +1,11 @@
 package com.example.adapter
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.adapter.Data.GameUiState
 import com.example.adapter.Data.allCards
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +19,7 @@ class GameViewModel : ViewModel() {
     private lateinit var currentCard: String
 
     private var userCards: MutableSet<String> = mutableSetOf()
-    private var usedCards: MutableSet<String> = mutableSetOf()
+   
 
 
     private var userGuess by mutableStateOf("")
@@ -31,15 +27,9 @@ class GameViewModel : ViewModel() {
 
 
     init {
-        val result = viewModelScope.async {
-            delay(3000)
-            true
-        }
-        result.invokeOnCompletion{
-            if(it == null) {
-                Log.d("ExampleViewModel", "${result.getCompleted()}")
-            }
-        }
+       
+        resetGame()
+  
     }
 
     private fun pickRandomWordAndShuffle(): String {
@@ -59,34 +49,14 @@ class GameViewModel : ViewModel() {
         return userCards
     }
 
-    private fun pickCard():  MutableSet<String> {
-        var num: Int = 4
-        while (num <=9 ){
-            allCards.forEach{
-                    item -> usedCards.add(pickRandomWordAndShuffle())
-                num += 1
-            }
-        }
-        return usedCards
-    }
+ 
 
 
     fun resetGame() {
-     _uiState.value = GameUiState(currendCards = "")
-     _uiState.value = GameUiState(currendCards = pickRandomWordAndShuffle())
+     _uiState.value = GameUiState(currentCards = pickRandomWordAndShuffle())
     }
 
-   fun updateState( ) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                currendCards = pickRandomWordAndShuffle() )
-        }
-       resetGame()
-    }
+  
 
-    fun updaState() {
-        _uiState.value = GameUiState(currendCards = pickRandomWordAndShuffle())
-
-    }
-
+  
 }
