@@ -1,11 +1,15 @@
 package com.example.adapter
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.adapter.Data.GameUiState
 import com.example.adapter.Data.allCards
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,11 +31,15 @@ class GameViewModel : ViewModel() {
 
 
     init {
-        //updaState ()
-        resetGame()
-        //updaState ()
-     // updateState (userCards)
-      //  resetGame()
+        val result = viewModelScope.async {
+            delay(3000)
+            true
+        }
+        result.invokeOnCompletion{
+            if(it == null) {
+                Log.d("ExampleViewModel", "${result.getCompleted()}")
+            }
+        }
     }
 
     private fun pickRandomWordAndShuffle(): String {
