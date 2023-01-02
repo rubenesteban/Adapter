@@ -19,7 +19,7 @@ class GameViewModel : ViewModel() {
     private lateinit var currentCard: String
 
     private var userCards: MutableSet<String> = mutableSetOf()
-    private var usedCards: MutableSet<String> = mutableSetOf()
+   
 
 
     private var userGuess by mutableStateOf("")
@@ -49,34 +49,14 @@ class GameViewModel : ViewModel() {
         return userCards
     }
 
-    private fun pickCard():  MutableSet<String> {
-        var num: Int = 4
-        while (num <=9 ){
-            allCards.forEach{
-                    item -> usedCards.add(pickRandomWordAndShuffle())
-                num += 1
-            }
-        }
-        return usedCards
-    }
+ 
 
 
     fun resetGame() {
-     _uiState.value = GameUiState(currendCards = "")
-     _uiState.value = GameUiState(currendCards = pickRandomWordAndShuffle())
+     _uiState.value = GameUiState(currentCards = pickRandomWordAndShuffle())
     }
 
-   fun updateState( ) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                currendCards = pickRandomWordAndShuffle() )
-        }
-       resetGame()
-    }
+  
 
-    fun updaState() {
-        _uiState.value = GameUiState(currendCards = pickRandomWordAndShuffle())
-
-    }
-
+  
 }
