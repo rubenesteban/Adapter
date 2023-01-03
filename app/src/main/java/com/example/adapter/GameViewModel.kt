@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 
 class GameViewModel : ViewModel() {
 
-    private val _tasks = getWellnessTasks().toMutableSet()
-    val tasks: MutableSet<Directory>
+    private val _tasks = getWellnessTasks().toMutableStateList()
+    val tasks: List<Directory>
         get() = _tasks
    // private var usedTask:List<Directory> = getWellnessTasks().toMutableStateList()
     private var usedTask:MutableSet<String> = mutableSetOf()
@@ -48,9 +48,4 @@ class GameViewModel : ViewModel() {
 
 
 
-private fun getWellnessTasks():Set<Directory> =
-    setOf(  Directory(1,"Miguel"),
-        Directory(2,"Miguel1"),
-        Directory(3,"Miguel2"),
-        Directory(4,"Miguel3"),
-        Directory(5,"Miguel4"))
+private fun getWellnessTasks() = List(30) { i -> Directory(i, "Task # $i")}

@@ -34,12 +34,12 @@ fun GameScreen(
 
 @Composable
 fun WellnesTaskList(
-    list: MutableSet<Directory>,
+    list: List<Directory>,
     modifier: Modifier = Modifier
 ){
     LazyColumn(modifier = Modifier) {
-        items(list) {
-                item -> wellnessTaskItem(taskName = tasks.name) }
+        items(items = list, key = { task -> task.id}){
+                task -> wellnessTaskItem(taskName = task.name) }
     }
 
 }
