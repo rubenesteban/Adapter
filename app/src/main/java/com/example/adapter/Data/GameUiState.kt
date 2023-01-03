@@ -1,6 +1,7 @@
 package com.example.adapter.Data
 
 data class GameUiState(
-    var currentCards: MutableSet<String> = mutableSetOf(""),
-    var currendCards: String = ""
+    val currentCards: MutableSet<String> = mutableSetOf(""),
+    val currendCard: String = ""
+
 )

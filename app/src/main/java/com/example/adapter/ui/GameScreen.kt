@@ -4,6 +4,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -16,78 +19,54 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.adapter.Data.Directory
 import com.example.adapter.GameViewModel
 
-@ExperimentalFoundationApi
 @Composable
 fun GameScreen(
     modifier: Modifier = Modifier,
-    gameViewModel: GameViewModel = viewModel()
-) {
-    val gameUiState by gameViewModel.uiState.collectAsState()
-    Column(
-        modifier = modifier
-            .padding(1.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+    viewModel: GameViewModel = viewModel()
     ) {
-        Button(
-            modifier = modifier
-                .fillMaxWidth(0.3F)
-                .weight(1f)
-                .padding(start = 8.dp),
-            onClick = { gameViewModel.updaState ()  }
-        ) {
-            Text(text = "iter", fontSize = 18.sp)
-        }
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(top = 1.dp),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-
-            LazyGridList(
-                options = gameUiState.currendCards
-            )
-
-        }
-    }
+   Column(modifier = modifier) {
+       WellnesTaskList(list = viewModel.tasks)
+   }
 }
 
-@ExperimentalFoundationApi
 @Composable
-fun LazyGridList(
-    modifier: Modifier = Modifier,
-    options: String
+fun WellnesTaskList(
+    list: MutableSet<Directory>,
+    modifier: Modifier = Modifier
 ){
-    LazyColumn(
-        contentPadding = PaddingValues(all = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ){
-        options.forEach {
-                item ->
-            stickyHeader {
-                Card(
-                    modifier =Modifier
-                        .width(151.dp)
-                        .height(190.dp)
-                        .padding(8.dp)
-                        .clickable{
+    LazyColumn(modifier = Modifier) {
+        items(list) {
+                item -> wellnessTaskItem(taskName = tasks.name) }
+    }
 
-                        },
-                    elevation = 10.dp
-                ){
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ){
-                        Text(text = "item $item", fontSize = 18.sp)
-                    }
-                }
-            }
+}
 
+@Composable
+fun wellnessTaskItem(
+    taskName:String,
+    modifier: Modifier = Modifier
+){
+    Card(
+        modifier = Modifier
+            .width(151.dp)
+            .height(190.dp)
+            .padding(8.dp)
+            .clickable {
+
+            },
+        elevation = 10.dp
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = taskName, fontSize = 18.sp)
         }
     }
 
 }
+

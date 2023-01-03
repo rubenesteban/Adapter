@@ -1,11 +1,14 @@
 package com.example.adapter
 
+import android.provider.ContactsContract
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.adapter.Data.Directory
 import com.example.adapter.Data.GameUiState
 import com.example.adapter.Data.allCards
 import kotlinx.coroutines.async
@@ -14,62 +17,40 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class GameViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(GameUiState())
-    val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
-
-    private lateinit var currentCard: String
-
-    private var userCards: MutableSet<String> = mutableSetOf()
-   
-
-
-    private var userGuess by mutableStateOf("")
-        private set
+    private val _tasks = getWellnessTasks().toMutableSet()
+    val tasks: MutableSet<Directory>
+        get() = _tasks
+   // private var usedTask:List<Directory> = getWellnessTasks().toMutableStateList()
+    private var usedTask:MutableSet<String> = mutableSetOf()
+    private lateinit var currentTask:String
 
 
     init {
-       
-        resetGame()
-        val result = viewModelScope.async {
-            delay(3000)
-            true
+
+    }
+    fun pickRamdowTask(): MutableSet<String> {
+        var i:Int = 1
+        while (i <= 8) {
+            currentTask = tasks.random().toString()
+            usedTask.add(currentTask)
+            i+=1
         }
-        result.invokeOnCompletion{
-            if(it == null) {
-                Log.d("ExampleViewModel", "${result.getCompleted()}")
-            }
-        }
-  
+        return usedTask
     }
 
-    private fun pickRandomWordAndShuffle(): String {
-        // Continue picking up a new random word until you get one that hasn't been used before
-        currentCard = allCards.random()
-        return  currentCard
-    }
-
-    private fun pickRandomCard():  MutableSet<String> {
-        var num: Int = 1
-        while (num <=7 ){
-            allCards.forEach{
-                item -> userCards.add(pickRandomWordAndShuffle())
-                num += 1
-            }
-        }
-        return userCards
-    }
-
- 
 
 
-    fun resetGame() {
-     _uiState.value = GameUiState(currentCards = pickRandomWordAndShuffle())
-    }
-
-  
-
-  
 }
+
+
+
+private fun getWellnessTasks():Set<Directory> =
+    setOf(  Directory(1,"Miguel"),
+        Directory(2,"Miguel1"),
+        Directory(3,"Miguel2"),
+        Directory(4,"Miguel3"),
+        Directory(5,"Miguel4"))
