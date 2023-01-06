@@ -32,7 +32,7 @@ fun GameScreen(
     // datastore Email
     val dataStore = StoreUserEmail(context)
     // get saved email
-    val savedEmail = dataStore.getEmail.collectAsState(initial = listOf())
+    val savedEmail = dataStore.getEmail.collectAsState(initial = "")
 
     var email by remember { mutableStateOf("") }
 
@@ -45,20 +45,21 @@ fun GameScreen(
                .height(70.dp)
                .padding(start = 8.dp),
            onClick = {   scope.launch {
-               dataStore.saveEmail(gameUiState.currentCards)
+               dataStore.saveEmail(email)
                viewModel.checkUserGuess()
            } }
        ) {
            Text(text = "Hols", fontSize = 18.sp)
        }
-       WellnesTaskList(list = gameUiState.currentCards)
+       WellnesTaskList(list = gameUiState.currendCard)
    }
 }
+
 
 @ExperimentalFoundationApi
 @Composable
 fun WellnesTaskList(
-    list: MutableSet<String>,
+    list: String,
     modifier: Modifier = Modifier
 ){
     LazyColumn(modifier = Modifier) {

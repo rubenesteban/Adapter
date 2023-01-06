@@ -61,7 +61,7 @@ class GameViewModel : ViewModel() {
     fun checkUserGuess(){
         _uiState.update { currentState ->
             currentState.copy(
-                currentCards = pickRamdowTask()
+                currendCard = email()
             )
         }
     }
