@@ -4,45 +4,70 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.adapter.Data.Directory
+import com.example.adapter.Data.StoreUserEmail
 import com.example.adapter.GameViewModel
+import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 @Composable
 fun GameScreen(
     modifier: Modifier = Modifier,
     viewModel: GameViewModel = viewModel()
     ) {
-   Column(modifier = modifier) {
-       WellnesTaskList(list = viewModel.tasks)
+
+    val gameUiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+    // scope
+    val scope = rememberCoroutineScope()
+    // datastore Email
+    val dataStore = StoreUserEmail(context)
+    // get saved email
+    val savedEmail = dataStore.getEmail.collectAsState(initial = listOf())
+
+    var email by remember { mutableStateOf("") }
+
+    Column( modifier = modifier
+       .padding(16.dp),
+       verticalArrangement = Arrangement.spacedBy(8.dp)) {
+       Button(
+           modifier = modifier
+               .width(151.dp)
+               .height(70.dp)
+               .padding(start = 8.dp),
+           onClick = {   scope.launch {
+               dataStore.saveEmail(gameUiState.currentCards)
+               viewModel.checkUserGuess()
+           } }
+       ) {
+           Text(text = "Hols", fontSize = 18.sp)
+       }
+       WellnesTaskList(list = gameUiState.currentCards)
    }
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun WellnesTaskList(
-    list: List<Directory>,
+    list: MutableSet<String>,
     modifier: Modifier = Modifier
 ){
     LazyColumn(modifier = Modifier) {
-        items(items = list, key = { task -> task.id}){
-                task -> wellnessTaskItem(taskName = task.name) }
+        list.forEach { item ->
+                stickyHeader { wellnessTaskItem(taskName = "it $item") }
+            }
     }
-
 }
+
 
 @Composable
 fun wellnessTaskItem(
@@ -69,4 +94,8 @@ fun wellnessTaskItem(
     }
 
 }
+
+
+
+
 
