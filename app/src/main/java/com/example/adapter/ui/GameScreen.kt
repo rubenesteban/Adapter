@@ -34,7 +34,7 @@ fun GameScreen(
     // get saved email
     val savedEmail = dataStore.getEmail.collectAsState(initial = "")
 
-    var email by remember { mutableStateOf("") }
+    var email = gameUiState.currendCard
 
     Column( modifier = modifier
        .padding(16.dp),
@@ -51,15 +51,17 @@ fun GameScreen(
        ) {
            Text(text = "Hols", fontSize = 18.sp)
        }
-       WellnesTaskList(list = gameUiState.currendCard)
+       WellnesTaskList(list = gameUiState.currentCards)
    }
 }
+
+
 
 
 @ExperimentalFoundationApi
 @Composable
 fun WellnesTaskList(
-    list: String,
+    list: MutableSet<String>,
     modifier: Modifier = Modifier
 ){
     LazyColumn(modifier = Modifier) {
