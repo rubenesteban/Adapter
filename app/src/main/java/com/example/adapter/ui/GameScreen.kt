@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.adapter.Data.StoreUserEmail
 import com.example.adapter.GameViewModel
@@ -36,6 +37,12 @@ fun GameScreen(
 
     var email = gameUiState.currendCard
 
+    fun bicis(name:Preferences): String {
+        val ramon = name.toString()
+        return ramon
+    }
+
+
     Column( modifier = modifier
        .padding(16.dp),
        verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -45,11 +52,12 @@ fun GameScreen(
                .height(70.dp)
                .padding(start = 8.dp),
            onClick = {   scope.launch {
-               dataStore.saveEmail(email)
+               viewModel.resetGame()
+               dataStore.saveEmail(viewModel.cards())
                viewModel.checkUserGuess()
            } }
        ) {
-           Text(text = "Hols", fontSize = 18.sp)
+           Text(text = "Hulk", fontSize = 18.sp)
        }
        WellnesTaskList(list = gameUiState.currentCards)
    }
