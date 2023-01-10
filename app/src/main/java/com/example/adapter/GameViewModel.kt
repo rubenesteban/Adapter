@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class GameViewModel(private val StoreUserEmail: StoreUserEmail) : ViewModel() {
+class GameViewModel() : ViewModel() {
 
    private val _uiState = MutableStateFlow(GameUiState())
    val uiState: StateFlow<GameUiState> =_uiState.asStateFlow()
@@ -25,9 +25,6 @@ class GameViewModel(private val StoreUserEmail: StoreUserEmail) : ViewModel() {
     private lateinit var tull:String
 
 
-    val initialSetupEvent = liveData {
-        emit(StoreUserEmail.fetchInitialPreferences())
-    }
 
 
     init {
@@ -52,14 +49,6 @@ class GameViewModel(private val StoreUserEmail: StoreUserEmail) : ViewModel() {
     fun bicis(name: Preferences): String {
         val ramon = name.toString()
         return ramon
-    }
-
-
-    fun enable(): String {
-        viewModelScope.launch{
-          var tull =  StoreUserEmail.fetchInitialPreferences().toString()
-        }
-        return tull
     }
 
 
