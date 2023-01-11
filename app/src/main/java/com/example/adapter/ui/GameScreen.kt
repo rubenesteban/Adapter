@@ -40,10 +40,7 @@ fun GameScreen(
 
      var UserGuess = gameUiState.currentCards
 
-    fun bicis(name:Preferences): String {
-        val ramon = name.toString()
-        return ramon
-    }
+
 
 
     Column( modifier = modifier
@@ -54,12 +51,9 @@ fun GameScreen(
                .width(151.dp)
                .height(70.dp)
                .padding(start = 8.dp),
-           onClick = {   scope.launch {
-
-              // dataStore.saveEmail(viewModel.cards())
-               viewModel.checkUser()
-               viewModel.checkUserGuess()
-
+           onClick = { scope.launch {
+             viewModel.checkUserGuess()
+             viewModel.UserGuess()
            } }
        ) {
            Text(text = "Hulk", fontSize = 18.sp)
