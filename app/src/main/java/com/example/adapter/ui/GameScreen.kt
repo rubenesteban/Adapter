@@ -23,7 +23,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun GameScreen(
     modifier: Modifier = Modifier,
-    viewModel: GameViewModel = viewModel()
+    viewModel: GameViewModel = viewModel(),
+
     ) {
 
     val gameUiState by viewModel.uiState.collectAsState()
@@ -35,7 +36,9 @@ fun GameScreen(
     // get saved email
     val savedEmail = dataStore.getEmail.collectAsState(initial = "")
 
-    var email = gameUiState.currendCard
+    var email = gameUiState.usedCards
+
+     var UserGuess = gameUiState.currentCards
 
     fun bicis(name:Preferences): String {
         val ramon = name.toString()
@@ -52,14 +55,22 @@ fun GameScreen(
                .height(70.dp)
                .padding(start = 8.dp),
            onClick = {   scope.launch {
-               viewModel.resetGame()
-               dataStore.saveEmail(viewModel.cards())
+
+              // dataStore.saveEmail(viewModel.cards())
+               viewModel.checkUser()
                viewModel.checkUserGuess()
+
            } }
        ) {
            Text(text = "Hulk", fontSize = 18.sp)
        }
-       WellnesTaskList(list = gameUiState.currentCards)
+        Row(modifier = modifier
+            .padding(16.dp),
+        ){
+            WellnesTaskList(list = UserGuess)
+            WellnesTaskList(list = email)
+        }
+
    }
 }
 
