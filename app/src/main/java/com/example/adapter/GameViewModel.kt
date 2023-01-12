@@ -26,6 +26,7 @@ class GameViewModel() : ViewModel() {
     private var Fulliy: MutableSet<String> = mutableSetOf<String>("")
     private var Marcot: MutableSet<String> = mutableSetOf<String>("")
     private var Polo: MutableSet<String> = mutableSetOf<String>("")
+    private var Roma: MutableSet<String> = mutableSetOf<String>("")
 
 
     private lateinit var currentTask:String
@@ -41,24 +42,91 @@ class GameViewModel() : ViewModel() {
     val tasks: List<Affirmation>
     get() = _tasks
     //_________________________________________________
+    //--------------------------
+    private val _wrap = getWellnessTasks().toMutableStateList()
+    val wrap: List<WellnessTask>
+        get() = _wrap
+    //_________________________________________________
+
+    //--------------------------
+    private val _punto = traeMixelPunto().toMutableStateList()
+    val punto: List<Mixtel>
+        get() = _punto
+    //_________________________________________________
 
 
-    var gol: List<WellnessTask> = listOf<WellnessTask>().toMutableStateList()
+    var again: List<Mixtel> = listOf<Mixtel>().toMutableStateList()
+    var futher: List<Mixtel> = listOf<Mixtel>().toMutableStateList()
+    var ipiales: List<Mixtel> = listOf<Mixtel>().toMutableStateList()
+    var gol: List<Affirmation> = listOf<Affirmation>().toMutableStateList()
+    var aro: List<WellnessTask> = listOf<WellnessTask>().toMutableStateList()
+    var rectangulo: List<Mixtel> = listOf<Mixtel>().toMutableStateList()
+    lateinit var libre: List<Affirmation>
+    lateinit var ocupado: List<WellnessTask>
+    lateinit var apple: List<Mixtel>
+    lateinit var toronja: List<WellnessTask>
+    lateinit var naranja: List<Mixtel>
+    lateinit var pera: List<Mixtel>
+    lateinit var pina: List<Mixtel>
+    lateinit var platano: List<Mixtel>
     lateinit var mas: MutableSet<String>
     lateinit var holdirt: MutableSet<String>
     lateinit var neco: String
+
+
     fun remove(item: Affirmation){
         _tasks.remove(item)
         //gult(item)
     }
 
-    fun gult(item:Affirmation):MutableSet<String>{
-        neco = _tasks.add(item).toString()
+    fun remove(item: WellnessTask){
+        _wrap.remove(item)
+        //gult(item)
+    }
+    fun remove(item: Mixtel){
+        _punto.remove(item)
+        //gult(item)
+    }
+
+
+    fun miercoles():List<Mixtel>{
+        rectangulo = listOf(punto.random())
+        futher = listOf(punto.random())
+        ipiales = listOf(punto.random())
+        again = rectangulo + futher + ipiales
+        return again
+    }
+//------------Addclose
+    fun gult(item:Affirmation):List<Mixtel>{
+         pina = waffers(item)
+        naranja = punto + pina
+        return naranja
+
+    }
+
+    fun gilf(item:Mixtel):MutableSet<String>{
+        again = listOf(punto.random())
+        neco = _punto.add(item).toString()
         mas.add(neco)
-        Log.d(TAG, " it - $mas")
         return mas
 
     }
+
+    fun golf(item:WellnessTask):MutableSet<String>{
+        aro = listOf(wrap.random())
+        neco = _wrap.add(item).toString()
+        holdirt.add(neco)
+        return holdirt
+
+    }
+
+
+    fun waffers(item: Affirmation): List<Mixtel>{
+        apple = _tasks.add(item) as List<Mixtel>
+        return apple
+    }
+
+
     //-----------------------
 
 
@@ -68,110 +136,17 @@ class GameViewModel() : ViewModel() {
 
         resetGame()
 
-        probar(tren)
+        miercoles()
+
 
     }
-    
-     fun cards(): String {
-        currentTask = UsaWord.random()
-        return currentTask
-    }
 
-    private fun pickRamdowTask(): MutableSet<String> {
-        Words.clear()
-        var i = 1
-        while (i <=27){
-            currentTask = cards()
-            Words.add(currentTask)
-            i+=1
-        }
-        !tren
-        return Words
-    }
-
-
-
-    fun wordsfish():MutableSet<String> {
-        Trabajo = pickRamdowTask()
-        return Trabajo
-    }
-
-   private fun probar(hulk:Boolean){
-      if(!hulk) {
-          Log.d(TAG, " it - $hulk")
-          wordsfish()
-      }
-    }
-
-    fun Cambio():MutableSet<String>{
-        Marcot=UsaWord.toMutableSet()
-        return Marcot
-    }
-
-
-
-    private suspend fun petRamdowTask(): MutableSet<String> {
-            Work.clear()
-            var i = 1
-            while (i <= 27) {
-                currentTask = cards()
-                Work.add(currentTask)
-                i += 1
-            }
-            Fulliy = (Cambio() - Work) as MutableSet<String>
-            var y = Fulliy.size
-            var u = 1
-            var x = 27 - y
-            while(u <= x  ) {
-                Task = Fulliy.random()
-                Work.add(Task)
-                u += 1
-            }
-        return Work
-    }
-
-
-    fun checkUserGuess(){
-        viewModelScope.launch {
-            _uiState.update { currentState ->
-                currentState.copy(
-                    usedCards = petRamdowTask()
-                )
-            }
-
-        }
-    }
-
-    fun Higo(){
-        if(mas.size>=0) {
-            mas?.let { Polo = it }
-            Log.d(TAG, " it - $Polo")
-        } else{
-            Log.d(TAG, " it - $mas")
-        }
-    }
-
-    fun UserGuess(){
-        viewModelScope.launch {
-            _uiState.update { currentState ->
-                currentState.copy(
-                    currentCards = Trabajo
-                )
-            }
-
-        }
-    }
-
-    fun massUserGuess(){
-        viewModelScope.launch {
-            _uiState.update { currentState ->
-                currentState.copy(
-                    currentCards = mas
-                )
-            }
-
-        }
-    }
+    private fun traeMixelPunto() : List<Mixtel>{
+        return listOf<Mixtel>(
+            Mixtel(111, "Martha"),
+            Mixtel(112, "Manta"),
+            Mixtel(116, "Hugo"),
+        )}
 
     fun resetGame() {
         Words.clear()
@@ -181,10 +156,13 @@ class GameViewModel() : ViewModel() {
     }
 
 }
+
+data class Mixtel(val id: Int, val label: String)
 data class WellnessTask(val id: Int, val label: String)
 data class Affirmation(val id: Int, val label: String)
-private fun getWellnessTasks() = List(30){i ->WellnessTask(i, "Task # $i")}
-fun loadAffirmations(): List<Affirmation> {
+
+private fun getWellnessTasks() = List(3){i ->WellnessTask(i, "Task # $i")}
+private fun loadAffirmations(): List<Affirmation> {
     return listOf<Affirmation>(
         Affirmation(1, "R.image11"),
         Affirmation(2, "R.image12"),
