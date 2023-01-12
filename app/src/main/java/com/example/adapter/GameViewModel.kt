@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class GameViewModel(private val Datasource:Datasource) : ViewModel() {
+class GameViewModel() : ViewModel() {
 
    private val _uiState = MutableStateFlow(GameUiState())
    val uiState: StateFlow<GameUiState> =_uiState.asStateFlow()
@@ -37,7 +37,7 @@ class GameViewModel(private val Datasource:Datasource) : ViewModel() {
 
 
     //--------------------------
-    private val _tasks = Datasource.loadAffirmations().toMutableStateList()
+    private val _tasks = loadAffirmations().toMutableStateList()
     val tasks: List<Affirmation>
     get() = _tasks
     //_________________________________________________
@@ -184,6 +184,19 @@ class GameViewModel(private val Datasource:Datasource) : ViewModel() {
 data class WellnessTask(val id: Int, val label: String)
 data class Affirmation(val id: Int, val label: String)
 private fun getWellnessTasks() = List(30){i ->WellnessTask(i, "Task # $i")}
+fun loadAffirmations(): List<Affirmation> {
+    return listOf<Affirmation>(
+        Affirmation(1, "R.image11"),
+        Affirmation(2, "R.image12"),
+        Affirmation(3, "R.image13"),
+        Affirmation(4, "R.image14"),
+        Affirmation(5, "R.image15"),
+        Affirmation(6, "R.image16"),
+        Affirmation(7, "R.image17"),
+        Affirmation(8, "R.image18"),
+        Affirmation(9, "R.image19"),
+        Affirmation(10, "R.image10"))
+}
 
 
 
