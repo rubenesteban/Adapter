@@ -6,6 +6,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.*
 import com.example.adapter.Data.GameUiState
+import com.example.adapter.ui.WellnesTaskList
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,7 +51,7 @@ class GameViewModel() : ViewModel() {
 
     //--------------------------
     private val _punto = traeMixelPunto().toMutableStateList()
-    val punto: List<Mixtel>
+    val punto: MutableList<Mixtel>
         get() = _punto
     //_________________________________________________
 
@@ -89,11 +90,12 @@ class GameViewModel() : ViewModel() {
     }
 
 
-    fun miercoles():List<Mixtel>{
-        rectangulo = listOf(punto.random())
-        futher = listOf(punto.random())
-        ipiales = listOf(punto.random())
-        again = rectangulo + futher + ipiales
+    suspend fun miercoles():List<Mixtel>{
+        rectangulo = listOf(punto.random());
+        futher = listOf(punto.random());
+        ipiales = listOf(punto.random());
+        again = listOf(punto.random());
+        again = again + rectangulo + futher + ipiales
         return again
     }
 //------------Addclose
@@ -127,6 +129,7 @@ class GameViewModel() : ViewModel() {
     }
 
 
+
     //-----------------------
 
 
@@ -135,18 +138,43 @@ class GameViewModel() : ViewModel() {
     init {
 
         resetGame()
+       // rectangulo = listOf(punto.random());
+        //Skott()
+       // ananir()
 
-        miercoles()
+            //miercoles()
 
 
     }
 
-    private fun traeMixelPunto() : List<Mixtel>{
+    suspend fun ananir() {
+        again = punto + rectangulo
+        print( again )
+    }
+
+
+
+
+    fun main(){
+        again = punto + rectangulo
+        println(again)
+    }
+
+    suspend fun Skott() {
+        viewModelScope.launch {
+            ananir()
+        }
+    }
+
+private fun traeMixelPunto() : MutableList<Mixtel>{
         return listOf<Mixtel>(
             Mixtel(111, "Martha"),
             Mixtel(112, "Manta"),
             Mixtel(116, "Hugo"),
-        )}
+        ) as MutableList<Mixtel>
+}
+
+
 
     fun resetGame() {
         Words.clear()
@@ -155,6 +183,16 @@ class GameViewModel() : ViewModel() {
        //_uiState.value = GameUiState(usedCards = Work)
     }
 
+}
+
+
+fun main(){
+    prueba()
+}
+fun prueba(){
+    for(i in 1..5){
+        print(i)
+    }
 }
 
 data class Mixtel(val id: Int, val label: String)
@@ -175,6 +213,7 @@ private fun loadAffirmations(): List<Affirmation> {
         Affirmation(9, "R.image19"),
         Affirmation(10, "R.image10"))
 }
+
 
 
 

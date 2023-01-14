@@ -53,7 +53,7 @@ fun GameScreen(
                .padding(start = 8.dp),
            onClick = { scope.launch {
 
-           // viewModel.miercoles()
+            viewModel.Skott()
 
            } }
        ) {
